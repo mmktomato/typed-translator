@@ -1,0 +1,23 @@
+{
+  "name": "wores",
+  "version": "0.0.1",
+  "description": "Strictly typed i18n library for TypeScript",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index.js"
+  },
+  "keywords": [
+    "i18n",
+    "TypeScript"
+  ],
+  "author": "mmktomato",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.11.7",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "intl-messageformat-parser": "^3.2.2"
+  }
+}
