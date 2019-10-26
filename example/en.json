@@ -1,4 +1,5 @@
 {
   "key1": "value1",
-  "key2": "My name is {name}."
+  "key2": "My name is {name}.",
+  "key3": "My name is {name}.\nI'm {age} years old."
 }

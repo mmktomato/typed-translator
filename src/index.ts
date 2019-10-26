@@ -2,6 +2,8 @@ import { parse, TYPE } from "intl-messageformat-parser";
 import { readFile } from "fs";
 import { exit } from "process";
 
+import { createInterface } from "./declaration";
+
 readFile("example/en.json", "utf-8", (err, data) => {
   if (err) {
     console.log(err);
@@ -16,7 +18,9 @@ readFile("example/en.json", "utf-8", (err, data) => {
     const vars = ast
       .filter(node => node.type !== TYPE.literal)
       .map(node => node.value);
-    console.log(`${key}: ${vars.join(",")}`);
+
+    const interfaceText = createInterface(key, vars);
+    console.log(interfaceText);
   });
 });
 
