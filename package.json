@@ -4,8 +4,12 @@
   "description": "Strictly typed i18n library for TypeScript",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node ./dist/index.js"
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf dist",
+    "start": "node ./dist/cmd/wores.js"
+  },
+  "bin": {
+    "wores": "./dist/cmd/wores.js"
   },
   "keywords": [
     "i18n",
