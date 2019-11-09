@@ -10,3 +10,6 @@ export const isFlatStringObject = (obj: unknown): obj is { [key: string]: string
   return entries.every(([_, value]) => typeof(value) === "string");
 };
 
+export const printError = (err: Error) => {
+  console.error(err.name, err.message);
+};
