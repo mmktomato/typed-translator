@@ -1,7 +1,7 @@
-export const createInterface = (id: string, values: string[]) => {
+export const createInterface = (id: string, values: Set<string>) => {
   // TODO: Looks too ugly!. Separate formatting logic.
 
-  if (values.length < 1) {
+  if (values.size < 1) {
     return `interface ${id} {
   id: "${id}";
 }`;
@@ -10,7 +10,7 @@ export const createInterface = (id: string, values: string[]) => {
   return `interface ${id} {
   id: "${id}";
   values: {
-    ${values.map(value => `${value}: string;`).join("\n    ")}
+    ${Array.from(values).map(value => `${value}: string;`).join("\n    ")}
   };
 }`;
 };

@@ -4,9 +4,9 @@
   "description": "Strictly typed i18n library for TypeScript",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "npm run clean && tsc",
     "clean": "rm -rf dist",
-    "start": "node ./dist/cmd/wores.js"
+    "build": "npm run clean && tsc",
+    "wores": "npm run build && node ./dist/cmd/wores.js"
   },
   "bin": {
     "wores": "./dist/cmd/wores.js"
