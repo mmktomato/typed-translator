@@ -3,7 +3,7 @@
 import { parse, TYPE } from "intl-messageformat-parser";
 import { resolve, join } from "path";
 import { exit, argv } from "process";
-import { readdir } from "fs";
+import { readdir, writeFile } from "fs";
 
 import {
   createInterface,
@@ -20,14 +20,15 @@ import {
   printError,
 } from "./util";
 
-if (argv.length !== 3) {
+if (argv.length !== 4) {
   // TODO: Print usage.
-  printError("Directory must be specified.");
+  printError("Resource directory and output file must be specified.");
   exit(1);
 }
 
-const dir = argv[2];
-readdir(dir, { encoding: "utf8" }, async (err, files) => {
+const resourceDir = argv[2];
+const outputPath = argv[3];
+readdir(resourceDir, { encoding: "utf8" }, async (err, files) => {
   // TODO: Process only json file.
   //       Do not process sub directory's file.
   //         -> Consider to use `node-glob` package.
@@ -38,7 +39,7 @@ readdir(dir, { encoding: "utf8" }, async (err, files) => {
   }
 
   const promises = files.map(async (file) => {
-    const absPath = resolve(join(dir, file));  // TODO: I don't need `join`....
+    const absPath = resolve(join(resourceDir, file));  // TODO: I don't need `join`....
     const { default: jsonObj } = await import(absPath);
 
     if (!isFlatStringObject(jsonObj)) {
@@ -64,18 +65,24 @@ readdir(dir, { encoding: "utf8" }, async (err, files) => {
       compareMessageResourceContainers(messageResourceContainers);
     } catch (e) {
       printError(e);
-      exit(0);
+      exit(1);
     }
 
-    messageResourceContainers.forEach(messageResourceContainer => {
-      const messageResource = messageResourceContainer.messageResource;
-      const interfaceNames = Object.keys(messageResource);
-      const interfaces = interfaceNames.map(interfaceName => createInterface(interfaceName, messageResource[interfaceName]));
+    const messageResource = messageResourceContainers[0].messageResource;
+    const interfaceNames = Object.keys(messageResource);
+    const interfaces = interfaceNames.map(interfaceName => createInterface(interfaceName, messageResource[interfaceName]));
 
-      const messageTokenUnion = createMessageTokenUnion(interfaceNames);
-      const translateFunction = createExportedTranslateFunction();
+    const messageTokenUnion = createMessageTokenUnion(interfaceNames);
+    const translateFunction = createExportedTranslateFunction();
 
-      console.log(wrapWithDeclare(interfaces, messageTokenUnion, translateFunction));
+    const declaration = wrapWithDeclare(interfaces, messageTokenUnion, translateFunction);
+
+    // TODO: check file existance.
+    writeFile(outputPath, declaration, { encoding: "utf8" }, (err) => {
+      if (err) {
+        printError(err);
+        exit(1);
+      }
     });
   }
 });
