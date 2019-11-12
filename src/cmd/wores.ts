@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import { parse, TYPE } from "intl-messageformat-parser";
-import { resolve, join } from "path";
+import { resolve, extname } from "path";
 import { exit, argv } from "process";
-import { readdir, writeFile } from "fs";
+import { readdir, writeFile, statSync } from "fs";
 
 import {
   createInterface,
@@ -29,17 +29,18 @@ if (argv.length !== 4) {
 const resourceDir = argv[2];
 const outputPath = argv[3];
 readdir(resourceDir, { encoding: "utf8" }, async (err, files) => {
-  // TODO: Process only json file.
-  //       Do not process sub directory's file.
-  //         -> Consider to use `node-glob` package.
-
   if (err) {
     printError(err);
     exit(1);
   }
 
-  const promises = files.map(async (file) => {
-    const absPath = resolve(join(resourceDir, file));  // TODO: I don't need `join`....
+  const jsonFiles = files
+    .map(file => resolve(resourceDir, file))
+    .filter(absPath => {
+      return statSync(absPath).isFile && extname(absPath) === ".json";
+    })
+
+  const promises = jsonFiles.map(async (absPath) => {
     const { default: jsonObj } = await import(absPath);
 
     if (!isFlatStringObject(jsonObj)) {
