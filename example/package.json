@@ -1,0 +1,15 @@
+{
+  "name": "wores-example",
+  "version": "0.0.1",
+  "description": "Example of wores",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "npm run clean && tsc"
+  },
+  "author": "mmktomato",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.7.2"
+  }
+}

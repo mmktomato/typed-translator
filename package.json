@@ -7,7 +7,7 @@
     "clean": "rm -rf ./dist ./result && mkdir ./result",
     "build": "npm run clean && tsc",
     "wores": "npm run build && node ./dist/cmd/wores.js",
-    "wores:example": "npm run wores ./example ./result/example.d.ts"
+    "wores:example": "npm run wores ./example/resources ./result/example.d.ts"
   },
   "bin": {
     "wores": "./dist/cmd/wores.js"
