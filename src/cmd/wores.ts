@@ -8,7 +8,8 @@ import { readdir, writeFile, statSync } from "fs";
 import {
   createInterface,
   createMessageTokenUnion,
-  createExportedTranslateFunction,
+  createDictyonaryKeysUnion,
+  createTranslateFunction,
   wrapWithDeclare,
 } from "./declaration";
 import { compareMessageResourceContainers } from "./compare";
@@ -74,9 +75,10 @@ readdir(resourceDir, { encoding: "utf8" }, async (err, files) => {
     const interfaces = interfaceNames.map(interfaceName => createInterface(interfaceName, messageResource[interfaceName]));
 
     const messageTokenUnion = createMessageTokenUnion(interfaceNames);
-    const translateFunction = createExportedTranslateFunction();
+    const dictionaryKeysUnion = createDictyonaryKeysUnion(interfaceNames);
+    const translateFunction = createTranslateFunction();
 
-    const declaration = wrapWithDeclare(interfaces, messageTokenUnion, translateFunction);
+    const declaration = wrapWithDeclare(interfaces, messageTokenUnion, dictionaryKeysUnion, translateFunction);
 
     // TODO: check file existance.
     writeFile(outputPath, declaration, { encoding: "utf8" }, (err) => {

@@ -1,4 +1,4 @@
-import { MessageResolver, MessageDictionaryMap, MessageToken } from "./MessageResolver";
+import { MessageResolver, MessageDictionaries, MessageToken } from "./MessageResolver";
 
 
 class ResolverHolder {
@@ -18,7 +18,7 @@ class ResolverHolder {
 const resolverHolder = new ResolverHolder();
 
 
-export const initTranslation = (dictionaries: MessageDictionaryMap) => {
+export const initTranslation = (dictionaries: MessageDictionaries) => {
   resolverHolder.resolver = new MessageResolver(dictionaries);
 };
 

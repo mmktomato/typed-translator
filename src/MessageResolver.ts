@@ -2,7 +2,7 @@ interface MessageDictionary {
   [key: string]: string;
 }
 
-export type MessageDictionaryMap = Map<string, MessageDictionary>;
+export type MessageDictionaries = { [locale: string]: MessageDictionary };
 
 export interface MessageToken {
   id: string;
@@ -12,7 +12,7 @@ export interface MessageToken {
 export class MessageResolver {
   locale: string = "";
 
-  constructor(private readonly dictionaries: MessageDictionaryMap) {
+  constructor(private readonly dictionaries: MessageDictionaries) {
   }
 
   resolve(token: MessageToken): string {
@@ -20,7 +20,7 @@ export class MessageResolver {
       throw new Error("\"locale\" is not set.");
     }
 
-    const dict = this.dictionaries.get(this.locale);
+    const dict = this.dictionaries[this.locale];
     if (!dict) {
       throw new Error(`Messages for ${this.locale} is not available.`);
     }

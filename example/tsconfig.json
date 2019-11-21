@@ -8,9 +8,10 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "baseUrl": "./src",
-    // "typeRoots": [],                       /* List of folders to include type definitions from. */
+    "typeRoots": ["./types"],
     // "types": [],                           /* Type declaration files to be included in compilation. */
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules"

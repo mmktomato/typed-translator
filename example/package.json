@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./dist",
+    "wores": "wores ./resources ./types/wores.d.ts",
     "build": "npm run clean && tsc"
   },
   "author": "mmktomato",
   "license": "MIT",
   "devDependencies": {
     "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "wores": "file:.."
   }
 }

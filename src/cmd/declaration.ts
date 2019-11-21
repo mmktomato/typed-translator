@@ -20,15 +20,34 @@ export const createMessageTokenUnion = (interfaceNames: string[]) => {
   return `type MessageTokenType = ${interfaceNames.join(" | ")};`;
 };
 
-export const createExportedTranslateFunction = () => {
-  return "export const translate: (token: MessageTokenType) => string;";
+export const createDictyonaryKeysUnion = (interfaceNames: string[]) => {
+  const quotedInterfaceNames = interfaceNames.map(interfaceName => `"${interfaceName}"`);
+
+  // TODO: Add new line because this will be a very long line.
+  return `type DictionaryKeys = ${quotedInterfaceNames.join(" | ")};`;
 };
 
-export const wrapWithDeclare = (interfaces: string[], messageTokenUnion: string, translateFunction: string) => {
+export const createTranslateFunction = () => {
+  return "const translate: (token: MessageTokenType) => string;";
+};
+
+export const wrapWithDeclare = (
+  interfaces: string[],
+  messageTokenUnion: string,
+  dictionaryKeysUnion: string,
+  translateFunction: string,
+) => {
   // TODO: Format
   return `declare module 'wores' {
   ${interfaces.join("\n")}
+
   ${messageTokenUnion}
-  ${translateFunction}
+  ${dictionaryKeysUnion}
+  type Dictionary = { [key in DictionaryKeys]: string };
+  type Dictionaries = { [locale: string]: Dictionary };
+
+  export const initTranslation: (dictonary: Dictionaries) => void;
+  export const setLocale: (locale: string) => void;
+  export ${translateFunction}
 }`;
 };
