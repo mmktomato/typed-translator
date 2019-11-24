@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "wores": "wores ./resources ./types/wores.d.ts",
-    "build": "npm run clean && tsc"
+    "start": "npm run clean && npm run wores && tsc && node ./dist/src/index.js"
   },
   "author": "mmktomato",
   "license": "MIT",

@@ -4,9 +4,11 @@ interface MessageDictionary {
 
 export type MessageDictionaries = { [locale: string]: MessageDictionary };
 
+type Values = { [key: string]: string };
+
 export interface MessageToken {
   id: string;
-  values: {};
+  values?: Values;
 }
 
 export class MessageResolver {
@@ -25,7 +27,14 @@ export class MessageResolver {
       throw new Error(`Messages for ${this.locale} is not available.`);
     }
 
-    // TODO: replace variables.
-    return dict[token.id];
+    return token.values ? this.replaceVariables(dict[token.id], token.values) : dict[token.id];
+  }
+
+  private replaceVariables(template: string, values: Values): string {
+    return Object.entries(values).reduce((acc, [key, value]) => {
+      const regex = new RegExp(`{${key}}`, "g");
+      acc = acc.replace(regex, value);
+      return acc;
+    }, template);
   }
 }
