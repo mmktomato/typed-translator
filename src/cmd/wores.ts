@@ -10,7 +10,7 @@ import {
   createMessageTokenUnion,
   createDictyonaryKeysUnion,
   createTranslateFunction,
-  wrapWithDeclare,
+  wrapup,
 } from "./declaration";
 import { compareMessageResourceContainers } from "./compare";
 import {
@@ -78,7 +78,7 @@ readdir(resourceDir, { encoding: "utf8" }, async (err, files) => {
     const dictionaryKeysUnion = createDictyonaryKeysUnion(interfaceNames);
     const translateFunction = createTranslateFunction();
 
-    const declaration = wrapWithDeclare(interfaces, messageTokenUnion, dictionaryKeysUnion, translateFunction);
+    const declaration = wrapup(interfaces, messageTokenUnion, dictionaryKeysUnion, translateFunction);
 
     // TODO: check file existance.
     writeFile(outputPath, declaration, { encoding: "utf8" }, (err) => {

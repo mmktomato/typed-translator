@@ -31,21 +31,21 @@ export const createTranslateFunction = () => {
   return "const translate: (token: MessageTokenType) => string;";
 };
 
-export const wrapWithDeclare = (
+export const wrapup = (
   interfaces: string[],
   messageTokenUnion: string,
   dictionaryKeysUnion: string,
   translateFunction: string,
 ) => {
   // TODO: Format
-  return `declare module 'wores' {
-  ${interfaces.join("\n")}
+  return `${interfaces.join("\n")}
 
-  ${messageTokenUnion}
-  ${dictionaryKeysUnion}
-  type Dictionary = { [key in DictionaryKeys]: string };
-  type Dictionaries = { [locale: string]: Dictionary };
+${messageTokenUnion}
+${dictionaryKeysUnion}
+type Dictionary = { [key in DictionaryKeys]: string };
+type Dictionaries = { [locale: string]: Dictionary };
 
+declare module 'wores' {
   export const initTranslation: (dictonary: Dictionaries) => void;
   export const setLocale: (locale: string) => void;
   export ${translateFunction}
