@@ -1,18 +1,16 @@
 export const createInterface = (id: string, values: Set<string>) => {
-  // TODO: Looks too ugly!. Separate formatting logic.
-
   if (values.size < 1) {
-    return `interface ${id} {
-  id: "${id}";
-}`;
+    return `interface ${id} {\n` +
+           `  id: "${id}";\n` +
+           `}`;
   }
 
-  return `interface ${id} {
-  id: "${id}";
-  values: {
-    ${Array.from(values).map(value => `${value}: string;`).join("\n    ")}
-  };
-}`;
+  return `interface ${id} {\n` +
+         `  id: "${id}";\n` +
+         `  values: {\n` +
+         `    ${Array.from(values).map(value => `${value}: string;`).join("\n    ")}\n` +
+         `  };\n` +
+         `}`;
 };
 
 export const createMessageTokenUnion = (interfaceNames: string[]) => {
@@ -37,17 +35,16 @@ export const wrapup = (
   dictionaryKeysUnion: string,
   translateFunction: string,
 ) => {
-  // TODO: Format
-  return `${interfaces.join("\n")}
-
-${messageTokenUnion}
-${dictionaryKeysUnion}
-type Dictionary = { [key in DictionaryKeys]: string };
-type Dictionaries = { [locale: string]: Dictionary };
-
-declare module 'wores' {
-  export const initTranslation: (dictonary: Dictionaries) => void;
-  export const setLocale: (locale: string) => void;
-  export ${translateFunction}
-}`;
+  return `${interfaces.join("\n")}\n` +
+         `\n` +
+         `${messageTokenUnion}\n` +
+         `${dictionaryKeysUnion}\n` +
+         `type Dictionary = { [key in DictionaryKeys]: string };\n` +
+         `type Dictionaries = { [locale: string]: Dictionary };\n` +
+         `\n`+
+         `declare module 'wores' {\n` +
+         `  export const initTranslation: (dictonary: Dictionaries) => void;\n` +
+         `  export const setLocale: (locale: string) => void;\n` +
+         `  export ${translateFunction}\n` +
+         `}`;
 };
