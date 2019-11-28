@@ -1,3 +1,19 @@
+// TODO: unit test
+const joinAndBreak = (arr: string[], separater: string, breakNum: number, indentLevel: number): string => {
+  return arr.reduce((acc, cur, idx) => {
+    acc += cur;
+    if (idx === arr.length - 1) {
+      return acc;
+    } else {
+      acc += separater;
+    }
+    if (idx % breakNum === breakNum - 1) {
+      acc += "\n" + "  ".repeat(indentLevel);
+    }
+    return acc;
+  }, "");
+};
+
 export const createInterface = (id: string, values: Set<string>) => {
   if (values.size < 1) {
     return `interface ${id} {\n` +
@@ -14,15 +30,13 @@ export const createInterface = (id: string, values: Set<string>) => {
 };
 
 export const createMessageTokenUnion = (interfaceNames: string[]) => {
-  // TODO: Add new line because this will be a very long line.
-  return `type MessageTokenType = ${interfaceNames.join(" | ")};`;
+  return `type MessageTokenType = \n  ${joinAndBreak(interfaceNames, " | ", 5, 1)};`;
 };
 
 export const createDictyonaryKeysUnion = (interfaceNames: string[]) => {
   const quotedInterfaceNames = interfaceNames.map(interfaceName => `"${interfaceName}"`);
 
-  // TODO: Add new line because this will be a very long line.
-  return `type DictionaryKeys = ${quotedInterfaceNames.join(" | ")};`;
+  return `type DictionaryKeys = \n  ${joinAndBreak(quotedInterfaceNames, " | ", 5, 1)};`;
 };
 
 export const createTranslateFunction = () => {
