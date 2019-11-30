@@ -7,7 +7,6 @@ First, Prepare message dictionaries. (e.g. English and Japanese).
 
 ```json
 // en.json
-
 {
   "key1": "value without any variable.",
   "key2": "My account is {accountName}."
@@ -15,16 +14,18 @@ First, Prepare message dictionaries. (e.g. English and Japanese).
 ```
 ```json
 // ja.json
-
 {
   "key1": "変数なしの値",
   "key2": "私のアカウントは {accountName} です。"
 }
 ```
 
-NOTE: You have to save the json files at the same directory.
-NOTE: All values of a dictionary has to be `string`. Not `object`, `number`, etc.
-NOTE: Each keys and values of dictionaries have to be exactly same. For example, you can't add `key3` to only "en.json". And you can't use `screenName`in only "en.json".
+NOTE:
+
+* You have to save the json files at the same directory.
+* All values of a dictionary has to be `string`. Not `object`, `number`, etc.
+* Each keys and values of dictionaries have to be exactly same.
+    * For example, you can't add `key3` to **only** "en.json". And you can't use `screenName`in **only** "en.json".
 
 Next, run `wores` command. The first augument is the directory you saved json files. The second augument is a filepath where the command saves `.d.ts` file.
 
@@ -65,7 +66,12 @@ See [example](https://github.com/mmktomato/wores/tree/master/example) for more d
 
 ### What does "Strictly typed" mean?
 
-For above example, you can't pass `{ id: "key3" }` to `translate`. And You can't pass `{ id: "key2", values: { screenName: "mmktomato" } }` to `translate. TypeScript compiler should not allow them.
+For above example, you can't pass the following augments to `translate`. TypeScript compiler should not allow them.
+
+* `{ id: "key3" }`
+    * `key3` doesn't exist in message dictionaries.
+* `{ id: "key2", values: { screenName: "mmktomato" } }`
+    * `key2` doesn't have `screenName` variable.
 
 Try to modify [example](https://github.com/mmktomato/wores/tree/master/example) and see how it goes.
 
