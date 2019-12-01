@@ -1,4 +1,4 @@
-import { initTranslation, setLocale, translate } from "wores";
+import { initTranslation, setLocale, translate } from "typed-translator";
 
 import en from "../resources/en.json";
 import ja from "../resources/ja.json";

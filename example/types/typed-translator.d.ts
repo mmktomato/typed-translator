@@ -36,7 +36,7 @@ type DictionaryKeys =
 type Dictionary = { [key in DictionaryKeys]: string };
 type Dictionaries = { [locale: string]: Dictionary };
 
-declare module 'wores' {
+declare module 'typed-translator' {
   export const initTranslation: (dictonary: Dictionaries) => void;
   export const setLocale: (locale: string) => void;
   export const translate: (token: MessageTokenType) => string;

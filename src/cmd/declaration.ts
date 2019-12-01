@@ -56,7 +56,7 @@ export const wrapup = (
          `type Dictionary = { [key in DictionaryKeys]: string };\n` +
          `type Dictionaries = { [locale: string]: Dictionary };\n` +
          `\n`+
-         `declare module 'wores' {\n` +
+         `declare module 'typed-translator' {\n` +
          `  export const initTranslation: (dictonary: Dictionaries) => void;\n` +
          `  export const setLocale: (locale: string) => void;\n` +
          `  export ${translateFunction}\n` +

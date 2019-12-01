@@ -1,16 +1,16 @@
 {
-  "name": "wores",
+  "name": "typed-translator",
   "version": "0.0.1",
   "description": "Strictly typed i18n library for TypeScript",
   "main": "./dist/index.js",
   "scripts": {
     "clean": "rm -rf ./dist ./result && mkdir ./result",
     "build": "npm run clean && tsc",
-    "wores": "npm run build && node ./dist/cmd/wores.js",
-    "wores:example": "npm run wores ./example/resources ./result/example.d.ts"
+    "cmd": "npm run build && node ./dist/cmd/cmd.js",
+    "cmd:example": "npm run cmd ./example/resources ./result/example.d.ts"
   },
   "bin": {
-    "wores": "./dist/cmd/wores.js"
+    "typed-translator": "./dist/cmd/cmd.js"
   },
   "keywords": [
     "i18n",

@@ -1,4 +1,4 @@
-# wores
+# typed-translator
 Strictly typed i18n library for TypeScript.
 
 ## Usage
@@ -27,16 +27,16 @@ NOTE:
 * Each keys and values of dictionaries have to be exactly same.
     * For example, you can't add `key3` to **only** "en.json". And you can't use `screenName`in **only** "en.json".
 
-Next, run `wores` command. The first augument is the directory you saved json files. The second augument is a filepath where the command saves `.d.ts` file.
+Next, run `typed-translator` command. The first augument is the directory you saved json files. The second augument is a filepath where the command saves `.d.ts` file.
 
 ```bash
-$ npx wores './path/to/messages', './path/to/declaration.d.ts'
+$ npx typed-translator './path/to/messages', './path/to/declaration.d.ts'
 ```
 
-Then, load the json files and initialize `wores` in your TypeScript code.
+Then, load the json files and initialize `typed-translator` in your TypeScript code.
 
 ```typescript
-import { initTranslation } from "wores";
+import { initTranslation } from "typed-translator";
 
 import en from "path/to/en.json";  // English message dictionary.
 import ja from "path/to/ja.json";  // Japanese message dictionary.
@@ -47,7 +47,7 @@ initTranslation({ en, ja });  // Set messages.
 Finally, set language and translate.
 
 ```typescript
-import { setLocale, translate } from "wores";
+import { setLocale, translate } from "typed-translator";
 
 // Set locale to English.
 setLocale("en");
@@ -62,7 +62,7 @@ translate({ id: "key1" });  // should be "変数なしの値".
 translate({ id: "key2", values: { accountName: "mmktomato" } });  // should be "私のアカウントは {accountName} です。".
 ```
 
-See [example](https://github.com/mmktomato/wores/tree/master/example) for more details.
+See [example](https://github.com/mmktomato/typed-translator/tree/master/example) for more details.
 
 ### What does "Strictly typed" mean?
 
@@ -73,8 +73,8 @@ For above example, you can't pass the following augments to `translate`. TypeScr
 * `{ id: "key2", values: { screenName: "mmktomato" } }`
     * `key2` doesn't have `screenName` variable.
 
-Try to modify [example](https://github.com/mmktomato/wores/tree/master/example) and see how it goes.
+Try to modify [example](https://github.com/mmktomato/typed-translator/tree/master/example) and see how it goes.
 
 ## License
 
-MIT. See [LICENSE](https://github.com/mmktomato/wores/blob/master/LICENSE).
+MIT. See [LICENSE](https://github.com/mmktomato/typed-translator/blob/master/LICENSE).
