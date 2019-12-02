@@ -1,5 +1,10 @@
 # typed-translator
+
 Strictly typed i18n library for TypeScript.
+
+## What does "Strictly typed" mean?
+
+You can detect inconsistencies of translation key, variables at compile time.
 
 ## Usage
 
@@ -64,7 +69,7 @@ translate({ id: "key2", values: { accountName: "mmktomato" } });  // should be "
 
 See [example](https://github.com/mmktomato/typed-translator/tree/master/example) for more details.
 
-### What does "Strictly typed" mean?
+### Compile-time type checking
 
 For above example, you can't pass the following augments to `translate`. TypeScript compiler should not allow them.
 

@@ -1,6 +1,6 @@
 {
   "name": "typed-translator",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Strictly typed i18n library for TypeScript",
   "main": "./dist/index.js",
   "scripts": {
@@ -14,15 +14,27 @@
   },
   "keywords": [
     "i18n",
-    "TypeScript"
+    "translate",
+    "TypeScript",
+    "compile time"
   ],
   "author": "mmktomato",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmktomato/typed-translator"
+  },
+  "bugs": {
+    "url": "https://github.com/mmktomato/typed-translator/issues"
+  },
   "devDependencies": {
     "@types/node": "^12.11.7",
     "typescript": "^3.6.4"
   },
   "dependencies": {
     "intl-messageformat-parser": "^3.2.2"
+  },
+  "engines": {
+    "node": ">=8"
   }
 }
