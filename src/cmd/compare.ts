@@ -43,7 +43,6 @@ const compareTwo = (left: MessageResourceContainer, right: MessageResourceContai
   });
 };
 
-// TODO: write unit test.
 export const compareMessageResourceContainers = (messageResourceContainers: MessageResourceContainer[]) => {
   if (messageResourceContainers.length < 2) {
     return;
