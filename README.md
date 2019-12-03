@@ -6,6 +6,12 @@ Strictly typed i18n library for TypeScript.
 
 You can detect inconsistencies of translation key, variables at compile time.
 
+## Install
+
+```bash
+$ npm install --save typed-translator
+```
+
 ## Usage
 
 First, Prepare message dictionaries. (e.g. English and Japanese).
