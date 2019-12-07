@@ -1,7 +1,9 @@
+const indent = "  ";
+
 export const joinAndBreak = (arr: string[], separater: string, breakNum: number, indentLevel: number): string => {
   return arr.reduce((acc, cur, idx) => {
     if (idx % breakNum === 0) {
-      acc += "  ".repeat(indentLevel);
+      acc += indent.repeat(indentLevel);
     }
 
     acc += cur;
@@ -13,7 +15,7 @@ export const joinAndBreak = (arr: string[], separater: string, breakNum: number,
     }
 
     if (idx % breakNum === breakNum - 1) {
-      acc += "\n"
+      acc += "\n";
     }
 
     return acc;
@@ -30,7 +32,7 @@ export const createInterface = (id: string, values: Set<string>) => {
   return `interface ${id} {\n` +
          `  id: "${id}";\n` +
          `  values: {\n` +
-         `    ${Array.from(values).map(value => `${value}: string;`).join("\n    ")}\n` +
+         `    ${Array.from(values).map(value => `${value}: string;`).join(`\n${indent.repeat(2)}`)}\n` +
          `  };\n` +
          `}`;
 };
