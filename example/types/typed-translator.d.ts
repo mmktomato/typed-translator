@@ -27,10 +27,10 @@ interface key6 {
   id: "key6";
 }
 
-type MessageTokenType = 
+type MessageTokenType =
   key1 | key2 | key3 | key4 | key5 | 
   key6;
-type DictionaryKeys = 
+type DictionaryKeys =
   "key1" | "key2" | "key3" | "key4" | "key5" | 
   "key6";
 type Dictionary = { [key in DictionaryKeys]: string };
