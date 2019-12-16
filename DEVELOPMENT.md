@@ -26,7 +26,7 @@ $ npm install --save ../
 
 # Publish new version
 
-+ Bump version in package.json.
++ Bump version in package.json and package-lock.json.
 + npm run build
 + git commit
 + git tag <version>
