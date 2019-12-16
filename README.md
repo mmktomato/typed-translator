@@ -73,7 +73,7 @@ translate({ id: "key1" });  // should be "変数なしの値".
 translate({ id: "key2", values: { accountName: "mmktomato" } });  // should be "私のアカウントは {accountName} です。".
 ```
 
-See [example](https://github.com/mmktomato/typed-translator/tree/master/example) for more details.
+See [examples](https://github.com/mmktomato/typed-translator/tree/master/examples) for more details.
 
 ### Compile-time type checking
 
@@ -84,7 +84,7 @@ For above example, you can't pass the following augments to `translate`. TypeScr
 * `{ id: "key2", values: { screenName: "mmktomato" } }`
     * `key2` doesn't have `screenName` variable.
 
-Try to modify [example](https://github.com/mmktomato/typed-translator/tree/master/example) and see how it goes.
+Try to modify [examples](https://github.com/mmktomato/typed-translator/tree/master/examples) and see how it goes.
 
 ## License
 

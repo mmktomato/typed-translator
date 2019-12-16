@@ -1,0 +1,24 @@
+{
+  "name": "typed-translator-example-node-webpack",
+  "version": "0.0.1",
+  "description": "Example of typed-translator (node-webpack)",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "typed-translator": "typed-translator ./resources ./types/typed-translator.d.ts",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "author": "mmktomato",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.3",
+    "webpack-cli": "^3.3.10",
+    "webpack-shell-plugin-next": "^1.1.5"
+  },
+  "dependencies": {
+    "typed-translator": "file:../.."
+  }
+}

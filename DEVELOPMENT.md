@@ -8,10 +8,10 @@ $ npm run test
 
 # Run command using example's resources.
 $ npm run cmd:example
-$ cat result/example.d.ts
+$ cat result/example-node-simple.d.ts
 ```
 
-## example directory
+## examples directory
 
 ```bash
 # Run example app
@@ -21,7 +21,7 @@ $ npm run start
 # Refresh the library in example directory
 
 ```bash
-$ npm install --save ../
+$ npm install --save ../../
 ```
 
 # Publish new version
