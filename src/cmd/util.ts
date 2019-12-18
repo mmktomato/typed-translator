@@ -4,6 +4,7 @@ export interface FlatStringObject {
 
 const isObject = (obj: unknown): obj is {} => Object.prototype.toString.call(obj) === "[object Object]";
 
+// TODO: unit test
 export const isFlatStringObject = (obj: unknown): obj is FlatStringObject => {
   if (!isObject(obj)) {
     return false;

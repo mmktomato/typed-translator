@@ -7,8 +7,8 @@
     "clean": "rm -rf ./dist ./result && mkdir ./result",
     "build": "npm run clean && tsc",
     "cmd": "npm run build && node ./dist/cmd/cmd.js",
-    "cmd:example": "npm run cmd ./examples/node-simple/resources ./result/example-node-simple.d.ts",
-    "test": "jest"
+    "cmd:example": "npm run cmd -- ./examples/node-simple/resources ./result/example-node-simple.d.ts",
+    "test": "npm run build -- --noEmit && jest"
   },
   "bin": {
     "typed-translator": "./dist/cmd/cmd.js"
