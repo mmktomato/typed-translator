@@ -1,5 +1,5 @@
 import { compareMessageResourceContainers } from "./compare";
-import { MessageResourceContainer } from "./util";
+import { MessageResourceContainer } from "./messageResource";
 
 
 describe("compareMessageResourceContainers", () => {

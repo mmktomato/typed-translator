@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { parse, TYPE } from "intl-messageformat-parser";
 import { resolve, extname } from "path";
 import { exit, argv } from "process";
 import { readdir, writeFile, statSync } from "fs";
@@ -13,13 +12,8 @@ import {
   wrapup,
 } from "./declaration";
 import { compareMessageResourceContainers } from "./compare";
-import {
-  FlatStringObject,
-  MessageResource,
-  MessageResourceContainer,
-  isFlatStringObject,
-  printError,
-} from "./util";
+import { isFlatStringObject, printError } from "./util";
+import { MessageResourceContainer, createMessageResource } from "./messageResource";
 
 if (argv.length !== 4) {
   // TODO: Print usage.
@@ -50,7 +44,7 @@ readdir(resourceDir, { encoding: "utf8" }, async (err, files) => {
 
     const ret: MessageResourceContainer = {
       filename: absPath,
-      messageResource: analyzeFlatStringObject(jsonObj),
+      messageResource: createMessageResource(jsonObj),
     };
     return ret;
   });
@@ -89,23 +83,3 @@ readdir(resourceDir, { encoding: "utf8" }, async (err, files) => {
     });
   }
 });
-
-// TODO: separate to another file and write unit test.
-const analyzeFlatStringObject = (jsonObj: FlatStringObject) => {
-  const interfaceNames = Object.keys(jsonObj);
-  // TODO: Validate interfaceNames.
-
-  const ret: MessageResource = {};
-
-  interfaceNames.forEach(interfaceName => {
-    const ast = parse(jsonObj[interfaceName]);
-    const vars = ast
-      .filter(node => node.type !== TYPE.literal)
-      .map(node => node.value);
-
-    ret[interfaceName] = new Set(vars);
-  });
-
-  return ret;
-};
-

@@ -21,12 +21,3 @@ export const printError = (err: Error | string) => {
     console.error(err.name, err.message);
   }
 };
-
-export interface MessageResource {
-  [interfaceName: string]: Set<string>
-};
-
-export interface MessageResourceContainer {
-  filename: string;
-  messageResource: MessageResource;
-};

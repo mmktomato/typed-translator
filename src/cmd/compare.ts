@@ -1,4 +1,4 @@
-import { MessageResourceContainer } from "./util";
+import { MessageResourceContainer } from "./messageResource";
 
 const compareInerfaceNames = (
   leftFilename: string, leftInterfaceNames: string[],
