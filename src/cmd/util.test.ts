@@ -1,8 +1,6 @@
 import { isFlatStringObject } from "./util";
 
 describe("isFlatStringObject", () => {
-
-
   it.each`
     description       | arg                           | expected
     ${"string"}       | ${"str"}                      | ${false}

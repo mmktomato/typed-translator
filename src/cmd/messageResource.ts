@@ -11,7 +11,6 @@ export interface MessageResourceContainer {
   messageResource: MessageResource;
 };
 
-// TODO: write unit test.
 export const createMessageResource = (jsonObj: FlatStringObject) => {
   const interfaceNames = Object.keys(jsonObj);
   // TODO: Validate interfaceNames.
