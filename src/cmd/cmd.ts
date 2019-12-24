@@ -74,7 +74,6 @@ readdir(resourceDir, { encoding: "utf8" }, async (err, files) => {
 
     const declaration = wrapup(interfaces, messageTokenUnion, dictionaryKeysUnion, translateFunction);
 
-    // TODO: check file existance.
     writeFile(outputPath, declaration, { encoding: "utf8" }, (err) => {
       if (err) {
         printError(err);
