@@ -26,12 +26,13 @@ $ npm install --save ../../
 
 # Publish new version
 
++ git checkout master
 + Bump version in package.json and package-lock.json.
 + npm run build
 + git commit
-+ git tag <version>
++ git tag -a [version]
 + git push
-+ git push origin <tag name>
++ git push origin [tag name]
 + npm login
 + npm publish --dry-run
 + npm publish
