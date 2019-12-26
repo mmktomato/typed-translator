@@ -20,3 +20,8 @@ export const printError = (err: Error | string) => {
     console.error(err.name, err.message);
   }
 };
+
+export const printVersion = () => {
+  const version = require('../../package.json').version;
+  console.log(version);
+};

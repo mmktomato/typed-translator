@@ -12,8 +12,13 @@ import {
   wrapup,
 } from "./declaration";
 import { compareMessageResourceContainers } from "./compare";
-import { isFlatStringObject, printError } from "./util";
+import { isFlatStringObject, printError, printVersion } from "./util";
 import { MessageResourceContainer, createMessageResource } from "./messageResource";
+
+if (argv.includes("-v") || argv.includes("--version")) {
+  printVersion();
+  exit(0);
+}
 
 if (argv.length !== 4) {
   // TODO: Print usage.
