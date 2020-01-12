@@ -3,15 +3,10 @@
 import { exit, argv } from "process";
 
 import { createDeclaration } from "./api";
-import { toError } from "./util";
+import { toErrorString } from "./util";
 
 const printError = (err: unknown) => {
-  if (typeof(err) === "string" ) {
-    console.error(err);
-  } else {
-    const _err = toError(err);
-    console.error(_err.name, _err.message);
-  }
+  console.error(toErrorString(err));
 };
 
 const printVersion = () => {
