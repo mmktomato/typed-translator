@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 
-import { resolve, extname } from "path";
 import { exit, argv } from "process";
-import { readdir, writeFile, statSync } from "fs";
 
-import {
-  createInterface,
-  createMessageTokenUnion,
-  createDictyonaryKeysUnion,
-  createTranslateFunction,
-  wrapup,
-} from "./declaration";
-import { compareMessageResourceContainers } from "./compare";
-import { isFlatStringObject, printError, printVersion } from "./util";
-import { MessageResourceContainer, createMessageResource } from "./messageResource";
+import { createDeclaration } from "./api";
+import { toErrorString } from "./util";
+
+const printError = (err: unknown) => {
+  console.error(toErrorString(err));
+};
+
+const printVersion = () => {
+  const version = require("../../package.json").version;
+  console.log(version);
+};
 
 if (argv.includes("-v") || argv.includes("--version")) {
   printVersion();
@@ -28,62 +27,12 @@ if (argv.length !== 4) {
 
 const resourceDir = argv[2];
 const outputPath = argv[3];
-readdir(resourceDir, { encoding: "utf8" }, async (err, files) => {
-  if (err) {
-    printError(err);
+
+(async () => {
+  try {
+    await createDeclaration(resourceDir, outputPath);
+  } catch (e) {
+    printError(e);
     exit(1);
   }
-
-  const jsonFiles = files
-    .map(file => resolve(resourceDir, file))
-    .filter(absPath => {
-      return statSync(absPath).isFile && extname(absPath) === ".json";
-    })
-
-  const promises = jsonFiles.map(async (absPath) => {
-    const { default: jsonObj } = await import(absPath);
-
-    if (!isFlatStringObject(jsonObj)) {
-      throw new TypeError(`"${absPath}" must be flat and string-valued JSON.`);
-    }
-
-    const ret: MessageResourceContainer = {
-      filename: absPath,
-      messageResource: createMessageResource(jsonObj),
-    };
-    return ret;
-  });
-
-  const messageResourceContainers = await Promise.all(promises).catch(err => {
-    if (typeof(err) === "string" || err instanceof Error) {
-      printError(err);
-    }
-    exit(1);
-  });
-
-  if (messageResourceContainers) {
-    try {
-      compareMessageResourceContainers(messageResourceContainers);
-    } catch (e) {
-      printError(e);
-      exit(1);
-    }
-
-    const messageResource = messageResourceContainers[0].messageResource;
-    const interfaceNames = Object.keys(messageResource);
-    const interfaces = interfaceNames.map(interfaceName => createInterface(interfaceName, messageResource[interfaceName]));
-
-    const messageTokenUnion = createMessageTokenUnion(interfaceNames);
-    const dictionaryKeysUnion = createDictyonaryKeysUnion(interfaceNames);
-    const translateFunction = createTranslateFunction();
-
-    const declaration = wrapup(interfaces, messageTokenUnion, dictionaryKeysUnion, translateFunction);
-
-    writeFile(outputPath, declaration, { encoding: "utf8" }, (err) => {
-      if (err) {
-        printError(err);
-        exit(1);
-      }
-    });
-  }
-});
+})();

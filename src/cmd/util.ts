@@ -13,15 +13,13 @@ export const isFlatStringObject = (obj: unknown): obj is FlatStringObject => {
   return entries.every(([_, value]) => typeof(value) === "string");
 };
 
-export const printError = (err: Error | string) => {
+export const toErrorString = (err: unknown): string => {
   if (typeof(err) === "string" ) {
-    console.error(err);
+    return err;
+  } else if (err instanceof Error) {
+    return `${err.name} ${err.message}`;
   } else {
-    console.error(err.name, err.message);
+    const _err = new Error((err as any).toString());
+    return `${_err.name} ${_err.message}`;
   }
-};
-
-export const printVersion = () => {
-  const version = require('../../package.json').version;
-  console.log(version);
 };

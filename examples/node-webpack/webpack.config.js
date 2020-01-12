@@ -1,8 +1,7 @@
 const path = require("path");
 
-// TODO: This doesn't show typed-translator's error.
-//       Maybe I need to find another plugin or create customized plugin.
-const WebpackShellPluginNext = require("webpack-shell-plugin-next");
+// NOTE: The module path will be changed in future release.
+const TypedTranslatorWebpackPlugin = require("typed-translator/dist/webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -12,12 +11,9 @@ module.exports = {
     path: path.join(__dirname, "./dist")
   },
   plugins: [
-    new WebpackShellPluginNext({
-      onBuildStart:{
-        scripts: ["npm run typed-translator"],
-        blocking: true,
-        parallel: false
-      }
+    new TypedTranslatorWebpackPlugin({
+      resourceDir: "./resources",
+      outputPath: "./types/typed-translator.d.ts",
     })
   ],
   module: {
