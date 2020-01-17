@@ -1,4 +1,4 @@
-import { createMessageResource } from "./messageResource";
+import { createMessageResource, validateIdentifier } from "./messageResource";
 
 
 describe("createMessageResource", () => {
@@ -10,6 +10,24 @@ describe("createMessageResource", () => {
     ${"empty obejct"}    | ${{}}                              | ${{}}
   `("returns a message resource. ($description)", ({ arg, expected }) => {
     const res = createMessageResource(arg);
+    expect(res).toEqual(expected);
+  });
+});
+
+describe("validateIdentifier", () => {
+  it.each`
+    name         | expected
+    ${"test1_$"} | ${true}
+    ${"t"}       | ${true}
+    ${"_"}       | ${true}
+    ${"1"}       | ${false}
+    ${"1test"}   | ${false}
+    ${"test!"}   | ${false}
+    ${"!"}       | ${false}
+    ${""}        | ${false}
+  `("returns $expected if \"$name\".", ({ name, expected }) => {
+    const res = validateIdentifier(name);
+
     expect(res).toEqual(expected);
   });
 });

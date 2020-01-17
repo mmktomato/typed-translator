@@ -13,11 +13,14 @@ export interface MessageResourceContainer {
 
 export const createMessageResource = (jsonObj: FlatStringObject) => {
   const interfaceNames = Object.keys(jsonObj);
-  // TODO: Validate interfaceNames.
 
   const ret: MessageResource = {};
 
   interfaceNames.forEach(interfaceName => {
+    if (!validateIdentifier(interfaceName)) {
+      throw new Error(`"${interfaceName}" is not valid as identifier.`);
+    }
+
     const ast = parse(jsonObj[interfaceName]);
     const vars = ast
       .filter(node => node.type !== TYPE.literal)
@@ -28,3 +31,6 @@ export const createMessageResource = (jsonObj: FlatStringObject) => {
 
   return ret;
 };
+
+export const validateIdentifier = (name: string) =>
+  /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name);

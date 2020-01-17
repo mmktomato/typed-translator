@@ -29,18 +29,23 @@ export const createDeclaration = async (resourceDir: string, outputPath: string)
           return;
         };
 
-        const jsonObj = JSON.parse(data);
+        try {
+          const jsonObj = JSON.parse(data);
 
-        if (!isFlatStringObject(jsonObj)) {
-          reject(new TypeError(`"${absPath}" must be flat and string-valued JSON.`));
+          if (!isFlatStringObject(jsonObj)) {
+            reject(new TypeError(`"${absPath}" must be flat and string-valued JSON.`));
+            return;
+          }
+
+          const ret: MessageResourceContainer = {
+            filename: absPath,
+            messageResource: createMessageResource(jsonObj),
+          };
+          resolve(ret);
+        } catch (e) {
+          reject(e)
           return;
-        }
-
-        const ret: MessageResourceContainer = {
-          filename: absPath,
-          messageResource: createMessageResource(jsonObj),
         };
-        resolve(ret);
       });
     });
   });
@@ -49,11 +54,7 @@ export const createDeclaration = async (resourceDir: string, outputPath: string)
     throw err;
   });
 
-  try {
-    compareMessageResourceContainers(messageResourceContainers);
-  } catch (e) {
-    throw e;
-  }
+  compareMessageResourceContainers(messageResourceContainers);
 
   const messageResource = messageResourceContainers[0].messageResource;
   const interfaceNames = Object.keys(messageResource);
