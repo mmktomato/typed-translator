@@ -86,6 +86,33 @@ For above example, you can't pass the following augments to `translate`. TypeScr
 
 Try to modify [examples](https://github.com/mmktomato/typed-translator/tree/master/examples) and see how it goes.
 
+## webpack
+
+You don't have to run `typed-translator` command manually if you use webpack.
+
+```javascript
+// webpack.config.js
+
+// NOTE: The module path will be changed in future release.
+const TypedTranslatorWebpackPlugin = require("typed-translator/dist/webpack-plugin");
+
+module.exports = {
+  // ...
+  plugins: [
+    new TypedTranslatorWebpackPlugin({
+      // directory path you saved json files.
+      resourceDir: "./resources",
+
+      // filepath where the command saves `.d.ts` file.
+      outputPath: "./types/typed-translator.d.ts",
+    })
+  ],
+  // ...
+};
+```
+
+If you use watch mode (`webpack --watch`), the plugin tries to create new `.d.ts` file every time you change a file. If you don't use watch mode (`webpack`), the plugin runs once.
+
 ## License
 
 MIT. See [LICENSE](https://github.com/mmktomato/typed-translator/blob/master/LICENSE).
