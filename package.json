@@ -44,6 +44,6 @@
     "intl-messageformat-parser": "^3.5.3"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   }
 }
