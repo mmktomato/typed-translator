@@ -1,4 +1,5 @@
-import { readdirSync, readFile, writeFileSync, statSync } from "fs";
+import { statSync, promises } from "fs";
+const { readdir, readFile, writeFile } = promises;
 import { resolve, extname } from "path";
 
 import { compareMessageResourceContainers } from "./compare";
@@ -12,8 +13,9 @@ import {
   wrapup,
 } from "./declaration";
 
+
 export const createDeclaration = async (resourceDir: string, outputPath: string) => {
-  const files = readdirSync(resourceDir, { encoding: "utf8" });
+  const files = await readdir(resourceDir, { encoding: "utf8" });
 
   const jsonFiles = files
     .map(file => resolve(resourceDir, file))
@@ -21,38 +23,22 @@ export const createDeclaration = async (resourceDir: string, outputPath: string)
       return statSync(absPath).isFile && extname(absPath) === ".json";
     });
 
-  const promises = jsonFiles.map((absPath) => {
-    return new Promise<MessageResourceContainer>((resolve, reject) => {
-      readFile(absPath, { encoding: "utf8" }, (err, data) => {
-        if (err) {
-          reject(err);
-          return;
-        };
+  const promises = jsonFiles.map(async (absPath) => {
+    const data = await readFile(absPath, { encoding: "utf8" });
+    const jsonObj = JSON.parse(data);
 
-        try {
-          const jsonObj = JSON.parse(data);
+    if (!isFlatStringObject(jsonObj)) {
+      throw new TypeError(`"${absPath}" must be flat and string-valued JSON.`);
+    }
 
-          if (!isFlatStringObject(jsonObj)) {
-            reject(new TypeError(`"${absPath}" must be flat and string-valued JSON.`));
-            return;
-          }
-
-          const ret: MessageResourceContainer = {
-            filename: absPath,
-            messageResource: createMessageResource(jsonObj),
-          };
-          resolve(ret);
-        } catch (e) {
-          reject(e)
-          return;
-        };
-      });
-    });
+    const ret: MessageResourceContainer = {
+      filename: absPath,
+      messageResource: createMessageResource(jsonObj),
+    };
+    return ret;
   });
 
-  const messageResourceContainers = await Promise.all(promises).catch(err => {
-    throw err;
-  });
+  const messageResourceContainers = await Promise.all(promises);
 
   compareMessageResourceContainers(messageResourceContainers);
 
@@ -66,5 +52,5 @@ export const createDeclaration = async (resourceDir: string, outputPath: string)
 
   const declaration = wrapup(interfaces, messageTokenUnion, dictionaryKeysUnion, translateFunction);
 
-  writeFileSync(outputPath, declaration, { encoding: "utf8" });
+  await writeFile(outputPath, declaration, { encoding: "utf8" });
 };
