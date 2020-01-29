@@ -4,7 +4,10 @@ Strictly typed i18n library for TypeScript.
 
 ## What does "Strictly typed" mean?
 
-You can detect inconsistencies of translation key, variables at compile time.
+You can detect inconsistencies of translation keys and variables at compile time.
+
+And you can complete them when you are writing code.
+![completion](https://raw.githubusercontent.com/mmktomato/typed-translator/master/images/completion.gif)
 
 ## Install
 
