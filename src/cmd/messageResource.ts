@@ -1,4 +1,11 @@
-import { parse, TYPE } from "intl-messageformat-parser";
+import {
+  parse,
+  isLiteralElement,
+  isPoundElement,
+  MessageFormatElement,
+  LiteralElement,
+  PoundElement,
+} from "intl-messageformat-parser";
 import { FlatStringObject } from "./util";
 
 
@@ -23,7 +30,12 @@ export const createMessageResource = (jsonObj: FlatStringObject) => {
 
     const ast = parse(jsonObj[interfaceName]);
     const vars = ast
-      .filter(node => node.type !== TYPE.literal)
+      .reduce<Exclude<MessageFormatElement, LiteralElement | PoundElement>[]>((acc, cur) => {
+        if (!isLiteralElement(cur) && !isPoundElement(cur)) {
+          acc.push(cur);
+        }
+        return acc;
+      }, [])
       .map(node => node.value);
 
     ret[interfaceName] = new Set(vars);
