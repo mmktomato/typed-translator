@@ -52,6 +52,7 @@ Then, load the json files and initialize `typed-translator` in your TypeScript c
 ```typescript
 import { initTranslation } from "typed-translator";
 
+// NOTE: If you import json files directly like this, you need to set `resolveJsonModule: true` in tsconfig.json.
 import en from "path/to/en.json";  // English message dictionary.
 import ja from "path/to/ja.json";  // Japanese message dictionary.
 
