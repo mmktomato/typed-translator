@@ -1,4 +1,5 @@
 import { Compiler, Plugin } from "webpack";
+import { resolve } from "path";
 
 import { createDeclaration } from "../cmd/api";
 import { toErrorString } from "../cmd/util";
@@ -20,6 +21,13 @@ class TypedTranslatorWebpackPlugin implements Plugin {
         .catch((err) => {
           compilation.errors.push(toErrorString(err));
         });
+    });
+
+    compiler.hooks.emit.tapAsync("TypedTranslatorWebpackPlugin", (compilation, callback) => {
+      const outputAbsPath = resolve(this.options.outputPath);
+      compilation.fileDependencies.delete(outputAbsPath);
+
+      callback();
     });
   }
 }
