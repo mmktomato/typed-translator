@@ -1,0 +1,24 @@
+{
+  "name": "typed-translator-example-web-webpack-dev-server",
+  "version": "0.0.1",
+  "description": "Example of typed-translator (web-webpack-dev-server)",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "watch": "webpack-dev-server",
+    "start": "webpack-dev-server"
+  },
+  "author": "mmktomato",
+  "license": "MIT",
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "dependencies": {
+    "typed-translator": "file:../.."
+  }
+}
