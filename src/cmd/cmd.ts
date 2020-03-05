@@ -1,32 +1,28 @@
 #!/usr/bin/env node
 
 import { exit, argv } from "process";
+import program from "commander";
 
 import { createDeclaration } from "./api";
 import { toErrorString } from "./util";
+
 
 const printError = (err: unknown) => {
   console.error(toErrorString(err));
 };
 
-const printVersion = () => {
-  const version = require("../../package.json").version;
-  console.log(version);
-};
+program
+  .version(require("../../package.json").version, "-v, --version")
+  .arguments("<resourceDir> <outputPath>")
+  .parse(argv);
 
-if (argv.includes("-v") || argv.includes("--version")) {
-  printVersion();
-  exit(0);
-}
+const resourceDir = program.args[0];
+const outputPath = program.args[1];
 
-if (argv.length !== 4) {
-  // TODO: Print usage.
-  printError("Resource directory and output file must be specified.");
+if (!resourceDir || !outputPath) {
+  program.outputHelp();
   exit(1);
 }
-
-const resourceDir = argv[2];
-const outputPath = argv[3];
 
 (async () => {
   try {
