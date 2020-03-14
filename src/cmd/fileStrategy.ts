@@ -12,7 +12,6 @@ interface FileStrategy {
   contentToObject: (content: string) => Promise<unknown>;
 };
 
-// TODO: unit test
 export const createFileStrategy = (type: FileType): FileStrategy => {
   switch (type) {
     case "ts":
@@ -30,10 +29,10 @@ export const createFileStrategy = (type: FileType): FileStrategy => {
 };
 
 // TODO: unit test
-const jsonContentToObject = (content: string) => Promise.resolve(JSON.parse(content));
+export const jsonContentToObject = (content: string) => Promise.resolve(JSON.parse(content));
 
 // TODO: unit test
-const tsContentToObject = async (content: string) => {
+export const tsContentToObject = async (content: string) => {
   const tsOutput = TS.transpileModule(content, {
     compilerOptions: {
       module: TS.ModuleKind.CommonJS,
@@ -50,8 +49,7 @@ const tsContentToObject = async (content: string) => {
   return tsObj.default;
 };
 
-// TODO: unit test
-const createTempFilePath = async (): Promise<string> => {
+export const createTempFilePath = async (): Promise<string> => {
   const ret = resolve(tmpdir(), `${Math.floor(Math.random()*1000000)}`);
 
   try {
