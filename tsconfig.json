@@ -66,6 +66,7 @@
   "exclude": [
     "node_modules",
     "examples",
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "testdata"
   ]
 }

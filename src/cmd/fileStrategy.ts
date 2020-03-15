@@ -28,7 +28,6 @@ export const createFileStrategy = (type: FileType): FileStrategy => {
   }
 };
 
-// TODO: unit test
 export const jsonContentToObject = (content: string) => Promise.resolve(JSON.parse(content));
 
 // TODO: unit test
