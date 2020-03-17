@@ -1,7 +1,9 @@
 import * as path from "path";
 import { promises as fsPromises } from "fs";
-import * as os from "os";
+
 jest.mock("os");
+import * as os from "os";
+(os.tmpdir as jest.Mock).mockImplementation(() => "./mocktmp");
 
 import {
   createFileStrategy,
@@ -34,7 +36,7 @@ describe("createFileStrategy", () => {
 });
 
 describe("jsonContentToObject", () => {
-  it("returns a json object.", async () => {
+  it("returns an object.", async () => {
     const jsonContent = await readTestFile("en1.json");
 
     const res = await jsonContentToObject(jsonContent);
@@ -45,7 +47,31 @@ describe("jsonContentToObject", () => {
   it("throws an error if the file is incorrect.", async () => {
     const jsonContent = await readTestFile("en1.error.json");
 
-    expect(() => jsonContentToObject(jsonContent)).toThrowError();
+    await expect(jsonContentToObject(jsonContent)).rejects.toThrowError();
+  });
+});
+
+describe("tsContentToObject", () => {
+  it("returns an object.", async () => {
+    const tsContent = await readTestFile("en1.ts");
+
+    const res = await tsContentToObject(tsContent);
+
+    expect(res).toEqual({ key1: "value1" });
+  });
+
+  it("returns undefined if named export.", async () => {
+    const tsContent = await readTestFile("en1.named-export.ts");
+
+    const res = await tsContentToObject(tsContent);
+
+    expect(res).toBeUndefined();
+  });
+
+  it("throws an error if the file is incorrect.", async () => {
+    const tsContent = await readTestFile("en1.error.ts");
+
+    await expect(tsContentToObject(tsContent)).rejects.toThrowError();
   });
 });
 
@@ -53,12 +79,10 @@ describe("createTempFilePath", () => {
   let mathRandomSpy: jest.SpyInstance | null = null;
 
   beforeAll(() => {
-    (os.tmpdir as jest.Mock).mockImplementation(() => "./mocktmp");
     mathRandomSpy = jest.spyOn(Math, "random").mockImplementation(() => 0.1);
   });
 
   afterAll(() => {
-    (os.tmpdir as jest.Mock).mockRestore();
     (Math.random as jest.Mock).mockRestore();
   });
 

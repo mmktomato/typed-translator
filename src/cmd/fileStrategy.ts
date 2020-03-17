@@ -28,9 +28,8 @@ export const createFileStrategy = (type: FileType): FileStrategy => {
   }
 };
 
-export const jsonContentToObject = (content: string) => Promise.resolve(JSON.parse(content));
+export const jsonContentToObject = async (content: string) => JSON.parse(content);
 
-// TODO: unit test
 export const tsContentToObject = async (content: string) => {
   const tsOutput = TS.transpileModule(content, {
     compilerOptions: {
@@ -41,11 +40,14 @@ export const tsContentToObject = async (content: string) => {
   const tempFilePath = await createTempFilePath();
   await writeFile(tempFilePath, tsOutput.outputText, { encoding: "utf-8" });
 
-  const tsObj = require(tempFilePath);
-  delete require.cache[tempFilePath];
-  await unlink(tempFilePath);
+  try {
+    const tsObj = require(tempFilePath);
+    delete require.cache[tempFilePath];
 
-  return tsObj.default;
+    return tsObj.default;
+  } finally {
+    await unlink(tempFilePath);
+  }
 };
 
 export const createTempFilePath = async (): Promise<string> => {
