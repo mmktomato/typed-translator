@@ -117,6 +117,65 @@ module.exports = {
 
 If you use watch mode (`webpack --watch`), the plugin tries to create new `.d.ts` file every time you change a file. If you don't use watch mode (`webpack`), the plugin runs once.
 
+## Object instead of JSON (Experimental)
+
+You can use TypeScript object instead of JSON for message dictionary.
+**Note this feature is experimental.**
+
+```typescript
+// en.ts
+const en = {
+  key1: "value without any variable.",
+  key2: "My account is {accountName}."
+};
+export default en;
+```
+```typescript
+// ja.ts
+const ja = {
+  key1: "変数なしの値",
+  key2: "私のアカウントは {accountName} です。"
+};
+export default ja;
+```
+
+Next, run `typed-translator` command with `-t ts`.
+
+```bash
+$ npx typed-translator './path/to/messages', './path/to/declaration.d.ts' -t ts
+```
+
+Or pass `type: "ts"` property if you use the webpack plugin.
+
+```javascript
+  plugins: [
+    new TypedTranslatorWebpackPlugin({
+      // directory path you saved json files.
+      resourceDir: "./resources",
+
+      // filepath where the command saves `.d.ts` file.
+      outputPath: "./types/typed-translator.d.ts",
+
+      // type (json|ts)
+      type: "ts",
+    })
+  ],
+```
+
+Then, load the module in your code.
+
+```typescript
+import { initTranslation } from "typed-translator";
+
+// NOTE: You don't need `resolveJsonModule: true` in tsconfig.json.
+import en from "path/to/en";
+import ja from "path/to/ja";
+
+initTranslation({ en, ja });
+```
+
+The rest is same as for JSON.
+
 ## License
 
 MIT. See [LICENSE](https://github.com/mmktomato/typed-translator/blob/master/LICENSE).

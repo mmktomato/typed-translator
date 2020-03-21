@@ -12,28 +12,30 @@ import {
   createTranslateFunction,
   wrapup,
 } from "./declaration";
+import { createFileStrategy, FileType } from "./fileStrategy";
 
 
-export const createDeclaration = async (resourceDir: string, outputPath: string) => {
+export const createDeclaration = async (resourceDir: string, outputPath: string, type: FileType = "json") => {
+  const fileStrategy = createFileStrategy(type);
   const files = await readdir(resourceDir, { encoding: "utf8" });
 
   const jsonFiles = files
     .map(file => resolve(resourceDir, file))
     .filter(absPath => {
-      return statSync(absPath).isFile && extname(absPath) === ".json";
+      return statSync(absPath).isFile && extname(absPath) === fileStrategy.extension;
     });
 
   const promises = jsonFiles.map(async (absPath) => {
     const data = await readFile(absPath, { encoding: "utf8" });
-    const jsonObj = JSON.parse(data);
+    const obj = await fileStrategy.contentToObject(data);
 
-    if (!isFlatStringObject(jsonObj)) {
+    if (!isFlatStringObject(obj)) {
       throw new TypeError(`"${absPath}" must be flat and string-valued JSON.`);
     }
 
     const ret: MessageResourceContainer = {
       filename: absPath,
-      messageResource: createMessageResource(jsonObj),
+      messageResource: createMessageResource(obj),
     };
     return ret;
   });
