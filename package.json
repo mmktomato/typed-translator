@@ -1,6 +1,6 @@
 {
   "name": "typed-translator",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Strictly typed i18n library for TypeScript",
   "main": "./dist/index.js",
   "scripts": {
