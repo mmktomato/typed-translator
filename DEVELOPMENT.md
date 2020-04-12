@@ -31,8 +31,6 @@ $ npm install --save ../../
 + git diff HEAD^
 + git tag | tail -n 1
 + npm run build
-+ git commit
-+ git tag -a [version]
 + git push
 + git push origin [tag name]
 + npm login
