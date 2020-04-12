@@ -26,8 +26,10 @@ $ npm install --save ../../
 
 # Publish new version
 
-+ git checkout master
-+ Bump version in package.json and package-lock.json.
++ git switch master
++ npm version [major|minor|patch]
++ git diff HEAD^
++ git tag | tail -n 1
 + npm run build
 + git commit
 + git tag -a [version]
